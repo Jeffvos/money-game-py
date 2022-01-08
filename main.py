@@ -49,9 +49,13 @@ class Game:
     def calculate_tax(self):
         tax_percentage = self.game_actions['tax']
         tax_amount = self.calculate_payday() * tax_percentage / 100
-        print(tax_amount)
+        print(f"You need to pay $ {tax_amount} tax")
         return tax_amount
-    
+
+    def output_money(self):
+        money = self.player["money"]
+        print(f"current balance $ {money}")
+
     def deduct_tax(self):
         tax = self.calculate_tax()
         self.player["money"] = self.player["money"] - tax
@@ -78,6 +82,7 @@ class Game:
                 print(board)
                 if board['name'] == "Tax":
                     self.deduct_tax()
+                    self.output_money()
             else:
                 quit()
 
