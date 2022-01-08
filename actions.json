@@ -1,0 +1,27 @@
+{
+    "professions":{
+        "pilot": { 
+            "salary": 6000,
+            "expenses": 3400},
+        "engineer": {
+            "salary": 2000,
+            "expenses": 1200
+        },
+        "cleaner": {
+            "salary": 1500,
+            "expenses": 600}
+    },
+    "option":{
+        "1":"first",
+        "2":"second",
+        "3": "thrid"
+    },
+    "buying":{
+        "TV": 2000,
+        "boat": 12000,
+        "computer": 800,
+        "car":10000
+    },
+    "tax": 30
+
+}

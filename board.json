@@ -1,0 +1,42 @@
+{
+    "0": {
+        "name": "Start",
+        "action": "Salary"
+    },
+    "1":{
+        "name": "Option"
+    },
+    "2":{
+        "name": "Buying"
+    },
+    "3":{
+        "name":"Charity"
+    },
+    "4": {
+        "name": "Tax"
+    },
+    "5":{
+        "name": "Buying"
+    },
+    "6":{
+        "name":"Option"
+    },
+    "7": {
+        "name":"Happening"
+    },
+    "8":{
+        "name": "Stocks"
+    },
+    "9":{
+        "name":"Pause"
+    },
+    "10": {
+        "name": "Luck"
+    },
+    "11":{
+        "name": "Option"
+    },
+    "12":{
+        "name": "Happening"
+    }
+}
