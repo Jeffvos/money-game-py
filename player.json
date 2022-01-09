@@ -1,0 +1,15 @@
+{
+    "name":"",
+    "profession":"",
+    "finances":{
+        "cash":0,
+        "salary":0,
+        "passive_income":0,
+        "loans":{}
+    },
+    "assets": {},
+    "expenses": {
+        "other":0,
+        "real_estate":0
+    }
+}

@@ -7,8 +7,10 @@ class Game:
             self.game_board = json.load(board)
         with open("actions.json") as game_actions:
             self.game_actions = json.load(game_actions)
+            print(self.game_actions)
+        with open("player.json") as player_attribute:
+            self.player = json.load(player_attribute)
         self.current_location = 0
-        self.player = {"name":"", "profession":"", "money":0, "assets":{},"loans":{}}
         self.create_player()
 
     def create_player(self):
@@ -16,7 +18,10 @@ class Game:
         professions = []
         for profession in self.game_actions["professions"]:
             professions.append(profession)
-        self.player["profession"] = professions[random.randrange(0, (len(professions)))]
+        current_profession = professions[random.randrange(0, (len(professions)))]
+        self.player["profession"] = current_profession
+        self.player["finances"]["salary"] = self.game_actions['professions'][current_profession]['salary']
+        self.player["expenses"]["other"] = self.game_actions['professions'][current_profession]['expenses']
         print(self.player)
         
     def calculate_current_position(self, dice):
@@ -31,7 +36,7 @@ class Game:
 
     def payday(self):
         current_pay = self.calculate_payday()
-        self.player["money"] = self.player["money"] + current_pay
+        self.player["finances"]["cash"] = self.player["finances"]["cash"] + current_pay
 
     def calculate_payday(self):
         salary = self.game_actions["professions"][self.player["profession"]]["salary"]
@@ -40,7 +45,7 @@ class Game:
         if len(self.player['assets']) > 0:
             for asset in self.player['assets']:
                 payday = payday + asset['payout']
-        if len(self.player['loans']) > 0:
+        if len(self.player['finances']['loans']) > 0:
             for loan in self.player['loans']:
                 payday = payday - loan
         payday = salary + asset_payout - self.game_actions["professions"][self.player["profession"]]['expenses']
@@ -53,12 +58,12 @@ class Game:
         return tax_amount
 
     def output_money(self):
-        money = self.player["money"]
+        money = self.player["finances"]["cash"]
         print(f"current balance $ {money}")
 
     def deduct_tax(self):
         tax = self.calculate_tax()
-        self.player["money"] = self.player["money"] - tax
+        self.player["finances"]["cash"] = self.player["finances"]["cash"] - tax
 
     def dice(self):
         dice1 = random.randrange(1,6)
