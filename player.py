@@ -12,18 +12,17 @@ class Player:
         self.player["finances"]["salary"] = self.game_actions['professions'][current_profession]['salary']
         self.player["expenses"]["other"] = self.game_actions['professions'][current_profession]['expenses']
 
-    def get_player(self):
-        player = self.player
-        return player
-
     def generate_profession(self):
         professions = []
         for profession in self.game_actions["professions"]:
             professions.append(profession)
         current_profession = professions[random.randrange(0, (len(professions)))]
         return current_profession
-
     
+    def get_player(self):
+        player = self.player
+        return player
+
     def calculate_payday(self):
         salary = self.player["finances"]["salary"]
         asset_payout = 0
