@@ -1,5 +1,6 @@
 import random
 import json
+import player
 
 class Game:
     def __init__(self):
@@ -7,22 +8,10 @@ class Game:
             self.game_board = json.load(board)
         with open("actions.json") as game_actions:
             self.game_actions = json.load(game_actions)
-            print(self.game_actions)
         with open("player.json") as player_attribute:
             self.player = json.load(player_attribute)
         self.current_location = 0
-        self.create_player()
-
-    def create_player(self):
-        self.player["name"] = input("whats your name?: ")
-        professions = []
-        for profession in self.game_actions["professions"]:
-            professions.append(profession)
-        current_profession = professions[random.randrange(0, (len(professions)))]
-        self.player["profession"] = current_profession
-        self.player["finances"]["salary"] = self.game_actions['professions'][current_profession]['salary']
-        self.player["expenses"]["other"] = self.game_actions['professions'][current_profession]['expenses']
-        print(self.player)
+        self.current_player = player.Player()
         
     def calculate_current_position(self, dice):
         board_size = self.get_board_size()
@@ -32,44 +21,41 @@ class Game:
             self.payday()
         else:
             self.current_location = dice + self.current_location
-        print(self.current_location)
+        return self.current_location
 
     def payday(self):
-        current_pay = self.calculate_payday()
-        self.player["finances"]["cash"] = self.player["finances"]["cash"] + current_pay
-
-    def calculate_payday(self):
-        salary = self.game_actions["professions"][self.player["profession"]]["salary"]
-        asset_payout = 0
-        payday = 0
-        if len(self.player['assets']) > 0:
-            for asset in self.player['assets']:
-                payday = payday + asset['payout']
-        if len(self.player['finances']['loans']) > 0:
-            for loan in self.player['loans']:
-                payday = payday - loan
-        payday = salary + asset_payout - self.game_actions["professions"][self.player["profession"]]['expenses']
-        return payday
+        current_pay = self.current_player.calculate_payday()
+        self.current_player.payment(current_pay)
+        return current_pay
     
     def calculate_tax(self):
         tax_percentage = self.game_actions['tax']
-        tax_amount = self.calculate_payday() * tax_percentage / 100
+        tax_amount = self.current_player.calculate_payday() * tax_percentage / 100
         print(f"You need to pay $ {tax_amount} tax")
         return tax_amount
 
     def output_money(self):
-        money = self.player["finances"]["cash"]
+        money = self.current_player.get_player()["finances"]["cash"]
         print(f"current balance $ {money}")
+    
+    def output_stats(self):
+        player = self.current_player.get_player()
+        print(f"Name: {player['name']}")
+        print(f"Profession: {player['profession']}")
+        print(f"Salary: ${player['finances']['salary']}")
+        print(f"Cash: ${player['finances']['cash']}")
+        print(f"Expenses ${player['expenses']['other']}")
 
     def deduct_tax(self):
         tax = self.calculate_tax()
-        self.player["finances"]["cash"] = self.player["finances"]["cash"] - tax
+        deducted = self.current_player.deduct_amount(tax)
+        self.output_money()
+        return deducted
 
     def dice(self):
         dice1 = random.randrange(1,6)
         dice2 = random.randrange(1,6)
         combined = dice1 + dice2
-        print(combined)
         self.calculate_current_position(combined)
         return combined
     
@@ -80,14 +66,12 @@ class Game:
     def play(self):
         while True:
             throw_dice = input("Throw dice? Y / N ")
+            self.output_stats()
             if throw_dice.upper() == "Y" or throw_dice == "":
-                print(self.player)
                 self.dice()
                 board = self.game_board[str(self.current_location)]
-                print(board)
                 if board['name'] == "Tax":
                     self.deduct_tax()
-                    self.output_money()
             else:
                 quit()
 
