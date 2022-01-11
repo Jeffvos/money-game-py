@@ -7,7 +7,6 @@ class Player:
             self.player = json.load(player_attribute)
         with open("actions.json") as game_actions:
             self.game_actions = json.load(game_actions)
-
         self.player["name"] = input("whats your name?: ")
         professions = []
         for profession in self.game_actions["professions"]:
@@ -19,7 +18,6 @@ class Player:
 
     def get_player(self):
         player = self.player
-
         return player
     
     def calculate_payday(self):
@@ -48,3 +46,4 @@ class Player:
     
     def output_transaction(self, transaction):
         print(f"transaction of {transaction}")
+        return transaction
