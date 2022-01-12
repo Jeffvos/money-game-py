@@ -22,6 +22,6 @@
         "computer": 800,
         "car":10000
     },
-    "tax": 30
-
+    "tax": 30,
+    "charity": 10
 }
