@@ -9,8 +9,8 @@ class Player:
             self.game_actions = json.load(game_actions)
         self.player["name"] = input("whats your name?: ")
         self.player["profession"] = self.generate_profession()
-        self.player["finances"]["salary"] = self.game_actions['professions'][current_profession]['salary']
-        self.player["expenses"]["other"] = self.game_actions['professions'][current_profession]['expenses']
+        self.player["finances"]["salary"] = self.game_actions['professions'][self.player["profession"]]['salary']
+        self.player["expenses"]["other"] = self.game_actions['professions'][self.player["profession"]]['expenses']
 
     def generate_profession(self):
         professions = []
