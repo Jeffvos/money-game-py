@@ -23,6 +23,14 @@ class Player:
         player = self.player
         return player
 
+    def check_game(self):
+        payday = self.calculate_payday() - self.player['finances']['salary']
+        expenses = self.player['expenses']['other'] + self.player['expenses']['real_estate']
+        if payday >= expenses:
+            return True
+        else:
+            return False
+
     def calculate_payday(self):
         salary = self.player["finances"]["salary"]
         asset_payout = 0
@@ -50,3 +58,4 @@ class Player:
     def output_transaction(self, transaction):
         print(f"transaction of {transaction}")
         return transaction
+    

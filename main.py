@@ -22,6 +22,13 @@ class Game:
         else:
             self.current_location = dice + self.current_location
         return self.current_location
+    
+    def check_game(self):
+        game_status = self.current_player.check_game()
+        if game_status:
+            print('You won the game')
+            quit()
+        return game_status
 
     def payday(self):
         current_pay = self.current_player.calculate_payday()
@@ -65,6 +72,7 @@ class Game:
     
     def play(self):
         while True:
+            self.check_game()
             throw_dice = input("Throw dice? Y / N ")
             self.output_stats()
             if throw_dice.upper() == "Y" or throw_dice == "":
